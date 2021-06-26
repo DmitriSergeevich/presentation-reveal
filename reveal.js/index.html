@@ -1,0 +1,530 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>CSS Grid Layout</h1>
+					<h4>Something that will make your work easier</h4>			
+				</section>
+				<section>
+					<section>
+						<h2>Main terms</h2>
+					</section>
+					<section>						
+						<h3>Grid Container</h3>
+						<p>The element on which <span style="color: rgb(255, 17, 0);">display: grid</span> is applied</p>
+						<pre><code>
+<div class="container" style="display: grid">
+	<div class="item item-1"> </div>
+	<div class="item item-2"> </div>
+	<div class="item item-3"> </div>
+</div>
+						</code></pre>
+					</section>
+					<section>
+            <h3>Grid item</h3>
+						<p>The children (i.e. direct descendants) of the grid container. </p>
+						<pre><code>
+<div class="container">
+	<div class="item"> </div>
+	<div class="item">
+		<p class="sub-item"> </p>
+	</div>
+	<div class="item"> </div>
+</div>
+						</code></pre>
+						<p>Here the item elements are grid items, but sub-item isn’t.</p>
+					</section>
+					<section>
+						<h3>Grid Line</h3>
+						<p>The dividing lines that make up the structure of the grid.</p>
+						<img src="./SRC/terms-grid-line.svg" alt="grid-line" width="600px" height="200px">
+						<p>Here the yellow line is an example of a column grid line.</p>
+					</section>
+					<section>
+						<h3>Cell</h3>
+						<p>The space between two adjacent row and two adjacent column grid lines.</p>
+						<img src="./SRC/terms-grid-cell.svg" alt="grid-cell"  width="600px" height="200px">
+					</section>
+					<section>
+						<h3>Grid Track</h3>
+						<p>The space between two adjacent grid lines.</p>
+						<img src="./SRC/terms-grid-track.svg" alt="grid-track" width="600px" height="200px">
+						<p>Here’s the grid track between the second and third row grid lines.</p>
+					</section>
+					<section>
+						<h3>Grid Area</h3>
+						<p>The total space surrounded by four grid lines.</p>
+						<img src="./SRC/terms-grid-area.svg" alt="grid-area" width="600px" height="200px">
+						<p>Here’s the grid area between row grid lines 1 and 3, and column grid lines 1 and 3.</p>
+					</section>
+				</section>
+				<section>
+					<h3>Grid properties</h3>
+					<div style="display: flex; justify-content: space-around;">
+           <div style="width: 350px;">						 
+						<p>Properties for the Parent<br>(Grid Container)</p>
+					</div>
+					 <div style="width: 350px;">
+						<p>Properties for the Children<br>(Grid Items)</p>
+					 </div>
+					</div>
+				</section>
+				<section>
+					<section><h2>Properties for the Parent</h2></section>
+					<section>
+						<h3>display</h3>
+						<p>Defines the element as a grid container and establishes a new grid formatting context for its contents.</p>
+						<br>						
+						<ul>
+							values:
+							<li>grid – generates a block-level grid</li>
+							<li>inline-grid – generates an inline-level grid</li>
+						</ul>
+							<pre><code data-trim data-noescape  >
+								.container {
+									display: grid | inline-grid;
+								}
+							</code></pre>					
+
+					</section>
+					<section>
+						<h4>
+							grid-template-columns<br>
+							grid-template-rows
+						</h4>
+						<p>Defines the columns and rows of the grid with a space-separated list of values.</p>
+						<pre><code data-trim data-noescape  >
+							.container {
+								display: grid;
+								grid-template-columns: 1fr 40px 50% 20rem;
+								grid-template-rows: 25% 100px auto;
+							}
+						</code></pre>					
+					</section>
+					<section data-background-color="rgb(250, 250, 250)">						
+						<pre><code data-trim data-noescape  >
+							.container {
+								display: grid;
+								grid-template-columns: 40px 50px auto 50px 40px;
+								grid-template-rows: 25% 100px auto;
+							}
+						</code></pre>
+						<img src="./SRC/template-columns-rows-01.svg" alt="template-columns-rows" width="800px" height="400px">
+					</section>
+					<section>
+						<h4>
+							grid-template-areas
+						</h4>
+						<p>Defines a grid template by referencing the names of the grid areas which are specified with the <span style="color: rgb(255, 17, 0);" >grid-area</span> property.</p>
+						<ul>
+							<li>
+                &lt;grid-area-name&gt; – the name of a grid area specified with grid-area
+						  </li>
+							<li>
+								. – a period signifies an empty grid cell
+						  </li>
+							<li>
+								none – no grid areas are defined
+						  </li>
+					  </ul>
+						<pre><code data-trim data-noescape>
+							.container {
+								grid-template-areas: 
+									" | . | none | &lt;grid-area-name&gt"
+									"...";
+							}
+						</code></pre>					
+					</section>
+					<section>
+						<div style="display: flex; justify-content: space-around;">
+							<pre style="width: 350px;"><code data-trim data-noescape>
+								.item-a {
+									grid-area: header;
+								}
+								.item-b {
+									grid-area: main;
+								}
+								.item-c {
+									grid-area: sidebar;
+								}
+								.item-d {
+									grid-area: footer;
+								}
+							</code></pre>
+              <pre style="width: 590px;"><code data-trim data-noescape>
+								.container {
+									display: grid;
+									grid-template-columns: 50px 50px 50px 50px;
+									grid-template-rows: auto;
+									grid-template-areas: 
+										"header header header header"
+										"main main . sidebar"
+										"footer footer footer footer";
+								}
+						  </code></pre>
+						</div>				
+						<img src="./SRC/template-areas.svg" alt="template-areas" width="600px" height="300px">						
+					</section>
+					<section>
+						<h4>
+							grid-template
+						</h4>
+						<p>A shorthand for setting <span style="color: rgb(255, 17, 0);">grid-template-rows</span>, <span style="color: rgb(255, 17, 0);">grid-template-columns</span>, and <span style="color: rgb(255, 17, 0);">grid-template-areas</span> in a single declaration.</p>
+						<ul>
+							<li>
+                &lt;grid-template-rows&gt; / &lt;grid-template-columns&gt; – sets specified values, respectively, and sets grid-template-areas to none
+						  </li>							
+							<li>
+								none – sets all three properties to their initial values
+						  </li>
+					  </ul>						
+					</section>
+					<section>						
+						<pre ><code data-trim data-noescape>
+								.container {
+									display: grid;
+									grid-template-columns: auto 50px auto;
+									grid-template-rows: 25px 25px;
+									grid-template-areas: 
+										"header header header"										
+										"footer footer footer";
+								}
+						</code></pre>
+
+            <pre ><code data-trim data-noescape>
+								.container {
+									display: grid;									
+									grid-template:
+										"header header header" 25px									
+										"footer footer footer" 25px / 
+										auto 50px auto;
+								}
+						</code></pre>						
+					</section>
+					<section>
+						<h3>gap</h3>
+						<p>Specifies the size of the grid lines.</p>
+					  <pre ><code data-trim data-noescape>
+							.container {
+								display: grid;								
+								gap: &lt;grid-row-gap&gt; &lt;grid-column-gap&gt;
+							}
+						</code></pre>						
+					</section>
+					<section data-background-color="rgb(250, 250, 250)">
+						<pre ><code data-trim data-noescape>
+							.container {
+								display: grid;								
+								gap: 15px 10px
+							}
+						</code></pre>
+						<img src="./SRC/gap.svg" alt="gap" width="600px" height="300px">
+					</section>
+					<section>
+						<h3>justify-items</h3>
+						<p>Aligns grid items along the inline (row) axis </p>
+						<ul>
+							Values:
+							<li>start – aligns items to be flush with the start edge of their cell</li>
+							<li>end – aligns items to be flush with the end edge of their cell</li>
+							<li>center – aligns items in the center of their cell</li>
+							<li>stretch – fills the whole width of the cell (this is the default)</li>
+						</ul>
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-items: start;
+							}
+						</code></pre>
+						<img src="./SRC/justify-items-start.svg" alt="justify-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-items: end;
+							}
+						</code></pre>
+						<img src="./SRC/justify-items-end.svg" alt="justify-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-items: center;
+							}
+						</code></pre>
+						<img src="./SRC/justify-items-center.svg" alt="justify-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-items: stretch;
+							}
+						</code></pre>
+						<img src="./SRC/justify-items-stretch.svg" alt="justify-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<h3>align-items</h3>
+						<p>Aligns grid items along the block (column) axis</p>
+						<ul>
+							Values:
+							<li>start – aligns items to be flush with the start edge of their cell</li>
+							<li>end – aligns items to be flush with the end edge of their cell</li>
+							<li>center – aligns items in the center of their cell</li>
+							<li>stretch – fills the whole width of the cell (this is the default)</li>
+						</ul>
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								align-items: start;
+							}
+						</code></pre>
+						<img src="./SRC/align-items-start.svg" alt="align-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								align-items: end;
+							}
+						</code></pre>
+						<img src="./SRC/align-items-end.svg" alt="align-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								align-items: center;
+							}
+						</code></pre>
+						<img src="./SRC/align-items-center.svg" alt="align-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								align-items: stretch;
+							}
+						</code></pre>
+						<img src="./SRC/align-items-stretch.svg" alt="align-items-start" width="600px" height="300px">
+					</section>
+					<section>
+						<h3>justify-content</h3>
+						<p>This property aligns the grid along the inline (row) axis</p>
+						<ul style="font-size: 70%;">
+							Values:
+							<li>start – aligns the grid to be flush with the start edge of the grid container</li>
+							<li>end – aligns the grid to be flush with the end edge of the grid container</li>
+							<li>center – aligns the grid in the center of the grid container</li>
+							<li>stretch – resizes the grid items to allow the grid to fill the full width of the grid container</li>
+              <li>space-around - places an even amount of space between each grid item, with half-sized spaces on the far ends</li>
+              <li>space-between – places an even amount of space between each grid item, with no space at the far ends</li>
+              <li>space-evenly – places an even amount of space between each grid item, including the far ends</li>
+						</ul>
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-content: start;
+							}
+						</code></pre>
+						<img src="./SRC/justify-content-start.svg" alt="justify-content" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-content: space-around;
+							}
+						</code></pre>
+						<img src="./SRC/justify-content-space-around.svg" alt="justify-content-space-around" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-content: space-between;
+							}
+						</code></pre>
+						<img src="./SRC/justify-content-space-between.svg" alt="justify-content-space-between" width="600px" height="300px">
+					</section>
+					<section>
+						<pre ><code data-trim data-noescape>
+							.container {
+								justify-content: space-evenly;
+							}
+						</code></pre>
+						<img src="./SRC/justify-content-space-evenly.svg" alt="align-items-start" width="600px" height="300px">
+					</section>
+
+				</section>
+				<section>
+					<section>
+						<h2>Properties for the Children</h2>
+					</section>
+					<section>
+						<h3>justify-self</h3>
+						<p>Aligns a grid item inside a cell along the inline (row) axis</p>
+						<ul>
+							values:							
+							<li>start – aligns the grid item to be flush with the start edge of the cell</li>
+							<li>end – aligns the grid item to be flush with the end edge of the cell</li>
+							<li>center – aligns the grid item in the center of the cell</li>
+							<li>stretch – fills the whole width of the cell (this is the default)</li>
+						</ul>
+					</section>
+						<section>
+							<div >
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											justify-self: start;
+										}
+									</code></pre>
+									<img src="./SRC/justify-self-start.svg" alt="justify-self-start" width="250px" height="150px">
+								</div>
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											justify-self: end;
+										}
+									</code></pre>
+									<img src="./SRC/justify-self-end.svg" alt="justify-self-end" width="250px" height="150px">
+								</div>
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											justify-self: center;
+										}
+									</code></pre>
+									<img src="./SRC/justify-self-center.svg" alt="justify-self-center" width="250px" height="150px">
+								</div>
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											justify-self: stretch;
+										}
+									</code></pre>
+									<img src="./SRC/justify-self-stretch.svg" alt="justify-self-stretch" width="250px" height="150px">
+								</div>
+
+							</div>
+						</section>
+						<section>
+							<h3>align-self</h3>
+							<p>Aligns a grid item inside a cell along the block (column) axis</p>
+							<ul>
+								values:							
+								<li>start – aligns the grid item to be flush with the start edge of the cell</li>
+								<li>end – aligns the grid item to be flush with the end edge of the cell</li>
+								<li>center – aligns the grid item in the center of the cell</li>
+								<li>stretch – fills the whole width of the cell (this is the default)</li>
+							</ul>
+						</section>
+						<section>
+							<div >
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											align-self: start;
+										}
+									</code></pre>
+									<img src="./SRC/align-self-start.svg" alt="justify-self-start" width="250px" height="150px">
+								</div>
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											align-self: end;
+										}
+									</code></pre>
+									<img src="./SRC/align-self-end.svg" alt="justify-self-end" width="250px" height="150px">
+								</div>
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											align-self: center;
+										}
+									</code></pre>
+									<img src="./SRC/align-self-center.svg" alt="justify-self-center" width="250px" height="150px">
+								</div>
+								<div style="width: 700px; height: 150px; display: flex;">
+									<pre><code data-trim data-noescape>
+										.item-a {
+											align-self: stretch;
+										}
+									</code></pre>
+									<img src="./SRC/align-self-stretch.svg" alt="justify-self-stretch" width="250px" height="150px">
+								</div>
+
+							</div>
+						</section>
+						<section>
+							<h3>grid-area</h3>
+							<p>Gives an item a name so that it can be referenced by a template created with the <span style="color: rgb(255, 17, 0);">grid-template-areas</span> property</p>
+							<ul>
+								<li>&lt;name&gt; – a name of your choosing</li>
+								<li>&lt;row-start&gt; / &lt;column-start&gt; / &lt;row-end&gt; / &lt;column-end&gt; – can be numbers or named lines</li>																	
+							</ul>
+							<pre><code data-trim data-noescape style="font-size: 87%;">
+								.item {
+									grid-area: &lt;name&gt; | &lt;row-start&gt; / &lt;column-start&gt; / &lt;row-end&gt; / &lt;column-end&gt;
+								}
+							</code></pre>
+						</section>
+						<section data-background-color="rgb(250, 250, 250)">
+							<div style="display: flex; justify-content: space-between; ">
+								<pre style="width: 400px"><code data-trim data-noescape style="font-size: 70%;">
+									.item-d {
+										grid-area: header;
+									}
+								</code></pre>
+								<pre style="width: 460px"><code data-trim data-noescape style="font-size: 70%;">
+									.item-d {
+										grid-area: 1 / col4-start / last-line / 6;
+									}
+								</code></pre>							
+
+							</div>
+							<img src="./SRC/grid-area.svg" alt="grid-area" width="500px" height="300px">
+						</section>
+				</section>
+				<section>
+
+				</section>
+				<section>
+					<img src="./SRC/no-tetris.png" alt="tetris" width="800px" height="600px">
+				</section>
+				<section>
+					<h1>Thanks for your attention.</h1>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
